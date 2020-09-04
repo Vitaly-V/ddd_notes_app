@@ -1,0 +1,23 @@
+name: dddnotesapp
+description: A new Flutter application.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.0
+  dartz: ^0.9.1
+  freezed_annotation: ^0.11.0+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner:
+  freezed: ^0.11.6
+
+flutter:
+  uses-material-design: true
