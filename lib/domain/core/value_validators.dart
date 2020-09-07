@@ -8,7 +8,7 @@ Either<ValueFailure<String>, String> validateEmailAddress(String input) {
   if (RegExp(emailRegex).hasMatch(input)) {
     return right(input);
   } else {
-    return left(ValueFailure<String>.invalidEmail(failedValue: input));
+    return left(InvalidEmail<String>(failedValue: input));
   }
 }
 
@@ -16,6 +16,6 @@ Either<ValueFailure<String>, String> validatePassword(String input) {
   if (input.length >= 6) {
     return right(input);
   } else {
-    return left(ValueFailure<String>.shortPassword(failedValue: input));
+    return left(ShortPassword<String>(failedValue: input));
   }
 }
