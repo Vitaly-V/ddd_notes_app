@@ -59,8 +59,7 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
     Future<Either<AuthFailure, Unit>> Function({
       @required EmailAddress email,
       @required Password password,
-    })
-        forwardedCall,
+    }) forwardedCall,
   ) async* {
     final bool isEmailValid = state.emailAddress.isValid();
     final bool isPasswordValid = state.password.isValid();
