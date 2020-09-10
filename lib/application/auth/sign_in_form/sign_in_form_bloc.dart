@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dddnotesapp/domain/auth/i_auth_facade.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
 import '../../../domain/auth/auth_failure.dart';
@@ -13,6 +14,7 @@ part 'sign_in_form_bloc.freezed.dart';
 part 'sign_in_form_event.dart';
 part 'sign_in_form_state.dart';
 
+@injectable
 class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
   SignInFormBloc(this._authFacade) : super(SignInFormState.initial());
   final IAuthFacade _authFacade;
@@ -59,7 +61,8 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
     Future<Either<AuthFailure, Unit>> Function({
       @required EmailAddress email,
       @required Password password,
-    }) forwardedCall,
+    })
+        forwardedCall,
   ) async* {
     final bool isEmailValid = state.emailAddress.isValid();
     final bool isPasswordValid = state.password.isValid();
