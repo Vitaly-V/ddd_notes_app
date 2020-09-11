@@ -1,27 +1,14 @@
-import 'package:dddnotesapp/injection.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
-void main() {
-  configureInjection(Environment.prod);
-  runApp(MyApp());
-}
+import 'injection.dart';
+import 'presentation/core/app_widget.dart';
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Material App',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Material App Bar'),
-        ),
-        body: Center(
-          child: Container(
-            child: Text('Hello World'),
-          ),
-        ),
-      ),
-    );
-  }
+Future<void> main() async {
+  WidgetsFlutterBinding
+      .ensureInitialized(); // need explicit binding before new Firebase call
+  await Firebase.initializeApp();
+  configureInjection(Environment.prod);
+  runApp(AppWidget());
 }
