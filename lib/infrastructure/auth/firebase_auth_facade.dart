@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:dddnotesapp/domain/core/value_objects.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +8,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../domain/auth/auth_failure.dart';
 import '../../domain/auth/i_auth_facade.dart';
+import '../../domain/auth/user.dart' as app_user;
 import '../../domain/auth/value_objects.dart';
 
 @LazySingleton(as: IAuthFacade)
@@ -85,4 +87,26 @@ class FirebaseAuthFacade implements IAuthFacade {
       return left(const AuthFailure.serverError());
     }
   }
+
+  // Check for better solution later.
+  Option<app_user.User> _maybeUser(String uid) {
+    return (uid == null || uid == '')
+        ? const None<app_user.User>()
+        : Some<app_user.User>(app_user.User(
+            id: UniqueId.fromUniqueString(uid),
+          ));
+  }
+
+  @override
+  Future<Option<app_user.User>> getSignedInUser() {
+    return Future<Option<app_user.User>>.value(
+      _maybeUser(FirebaseAuth.instance.currentUser.uid),
+    );
+  }
+
+  @override
+  Future<void> signOut() => Future.wait(<Future<void>>[
+        _googleSignIn.signOut(),
+        _firebaseAuth.signOut(),
+      ]);
 }
